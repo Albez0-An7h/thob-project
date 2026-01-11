@@ -11,12 +11,11 @@ interface SofaViewerProps {
 }
 
 const SofaModel = ({ configuration }: { configuration: Configuration }) => {
-  // Select the appropriate model based on size configuration
   const ModelComponent = 
     configuration.size === 'two_seater' ? TwoSeater :
     configuration.size === 'three_seater' ? ThreeSeater :
     configuration.size === 'l_shape' ? LSofa :
-    TwoSeater; // default fallback
+    TwoSeater;
 
   return (
     <Center>
@@ -30,7 +29,6 @@ const SofaViewer: React.FC<SofaViewerProps> = ({ configuration }) => {
     <div className="h-full flex flex-col">
       <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">3D Sofa Preview</h3>
       
-      {/* 3D Model Space */}
       <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-200 rounded-lg border border-gray-300 mb-4 min-h-[300px] lg:min-h-[400px]">
         <Canvas
           camera={{ position: [4, 2, 5], fov: 50 }}
@@ -57,7 +55,6 @@ const SofaViewer: React.FC<SofaViewerProps> = ({ configuration }) => {
         </Canvas>
       </div>
 
-      {/* Configuration Summary */}
       <div className="bg-gray-50 rounded-lg p-4">
         <h4 className="font-semibold text-gray-800 mb-3 text-center">Current Selection</h4>
         <div className="space-y-2 text-sm">

@@ -78,7 +78,7 @@ const Configurator: React.FC<ConfiguratorProps> = ({ onConfigurationChange, onPr
     setConfiguration(prev => ({
       ...prev,
       material: materialName,
-      color: '', // Reset color when material changes
+      color: '',
     }));
   };
 

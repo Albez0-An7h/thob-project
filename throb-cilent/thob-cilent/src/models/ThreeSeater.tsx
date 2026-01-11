@@ -13,18 +13,12 @@ interface ThreeSeaterProps {
 export function ThreeSeater({ configuration, ...props }: ThreeSeaterProps) {
     const { scene } = useGLTF('/gltf/Three_seater.gltf');
 
-    // Clone the scene to avoid sharing materials between instances
     const clonedScene = React.useMemo(() => {
         const cloned = scene.clone();
-        
-        // Fixed scale tuned so the three-seater fits inside the frame
-        const SCALE = 0.003;
-        cloned.scale.setScalar(SCALE);
-        
+        cloned.scale.setScalar(0.003);
         return cloned;
     }, [scene]);
 
-    // Apply material and color changes
     React.useEffect(() => {
         clonedScene.traverse((child) => {
             if ((child as THREE.Mesh).isMesh) {
@@ -32,9 +26,8 @@ export function ThreeSeater({ configuration, ...props }: ThreeSeaterProps) {
                 if (mesh.material) {
                     const material = mesh.material as THREE.MeshStandardMaterial;
 
-                    // Apply color if specified
                     if (configuration?.color) {
-                        const colorMap: { [key: string]: string } = {
+                        const colors = {
                             brown: '#8B4513',
                             black: '#2C2C2C',
                             white: '#F5F5F5',
@@ -44,10 +37,9 @@ export function ThreeSeater({ configuration, ...props }: ThreeSeaterProps) {
                             gray: '#808080',
                             orange: '#FF8C00'
                         };
-                        material.color = new THREE.Color(colorMap[configuration.color] || '#8B4513');
+                        material.color = new THREE.Color(colors[configuration.color] || '#8B4513');
                     }
 
-                    // Adjust material properties based on material type
                     if (configuration?.material === 'leather') {
                         material.roughness = 0.3;
                         material.metalness = 0.1;

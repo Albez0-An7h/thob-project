@@ -13,10 +13,8 @@ interface TwoSeaterProps {
 export function TwoSeater({ configuration, ...props }: TwoSeaterProps) {
     const { scene } = useGLTF('/gltf/two_seater.gltf');
 
-    // Clone the scene to avoid sharing materials between instances
     const clonedScene = React.useMemo(() => scene.clone(), [scene]);
 
-    // Apply material and color changes
     React.useEffect(() => {
         clonedScene.traverse((child) => {
             if ((child as THREE.Mesh).isMesh) {
@@ -24,9 +22,8 @@ export function TwoSeater({ configuration, ...props }: TwoSeaterProps) {
                 if (mesh.material) {
                     const material = mesh.material as THREE.MeshStandardMaterial;
 
-                    // Apply color if specified
                     if (configuration?.color) {
-                        const colorMap: { [key: string]: string } = {
+                        const colors = {
                             brown: '#8B4513',
                             black: '#2C2C2C',
                             white: '#F5F5F5',
@@ -36,10 +33,9 @@ export function TwoSeater({ configuration, ...props }: TwoSeaterProps) {
                             gray: '#808080',
                             orange: '#FF8C00'
                         };
-                        material.color = new THREE.Color(colorMap[configuration.color] || '#8B4513');
+                        material.color = new THREE.Color(colors[configuration.color] || '#8B4513');
                     }
 
-                    // Adjust material properties based on material type
                     if (configuration?.material === 'leather') {
                         material.roughness = 0.3;
                         material.metalness = 0.1;
